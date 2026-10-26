@@ -68,17 +68,21 @@ npm install @quantovainc/qconsent
 
 ## How you use it
 
-There are three parties. The patient holds a key and grants consent. The grantee, a clinician or hospital, holds a key and receives it. Any verifier checks it. The steps below are the whole lifecycle, in order.
+There are three parties. The patient holds a key and grants consent. The grantee, a clinician or hospital, holds a key and receives it. Any verifier checks the record. The numbered steps are the whole lifecycle in order, and the code that follows runs them.
+
+1. Each party makes its own 32 byte key once and keeps it.
+2. The patient grants consent, naming the grantee key, the purposes, the categories of data and the date the consent expires. This returns a signed record.
+3. The consent is anchored on the Quantova network for a time proof. Only a commitment reaches the chain, never the consent.
+4. Before the grantee uses the data it reads the status. The status is active only while the consent is valid, the caller is the named grantee and no revocation applies.
+5. The patient withdraws at any time by signing a revocation and anchoring it.
+6. Anyone verifies the consent against the patient key they expect and the revocations they hold. The result is valid only when every check passes and the consent is still in force.
 
 ```js
 const qconsent = require('@quantovainc/qconsent');
 
-// Each party holds its own 32 byte key. The patient and the hospital each make one once and keep it.
 const patient = qconsent.generateKey();
 const hospital = qconsent.generateKey();
 
-// Step 1. The patient grants consent. The patient names the hospital key, the purposes the data may be
-// used for, the categories of data covered and the date the consent expires. This returns a signed record.
 const consent = qconsent.grant({
   key: patient,
   grantee: qconsent.describeKey(hospital),
@@ -88,36 +92,25 @@ const consent = qconsent.grant({
   validUntil: '2027-10-26T00:00:00.000Z',
 });
 
-// Step 2. Anchor the consent on the Quantova network for an independent time proof. Only a commitment
-// goes on the chain, never the consent itself. Pass the key and index of a funded Quantova account.
 const [anchored] = await qconsent.anchor(consent, { seed, index: 0, network: 'testnet' });
 
-// Step 3. Before the hospital uses the data it asks whether the consent is in force right now. active is
-// true only while the consent is valid, the hospital is the named grantee and no revocation applies.
 const state = await qconsent.status(anchored, {
   granteeKeyId: qconsent.keyId(hospital),
   network: 'testnet',
 });
-if (state.active) {
-  // the hospital may use the data for state.purposes over state.categories until state.validUntil
-}
 
-// Step 4. The patient can withdraw at any time by signing a revocation. Anchor it the same way as the consent.
 const revocation = qconsent.revoke({ key: patient, consent: anchored });
 const [anchoredRevocation] = await qconsent.anchor(revocation, { seed, index: 0, network: 'testnet' });
 
-// Step 5. Anyone can verify the consent against the patient key they expect, with no trust in the hospital.
-// Pass any revocations they hold. valid is true only when every check passes and the consent is still in force.
 const result = await qconsent.verify(anchored, {
   type: 'consent',
   patientKeyId: qconsent.keyId(patient),
   revocations: [anchoredRevocation],
   network: 'testnet',
 });
-// result.valid, result.status, result.revokedAt and result.checks explain the outcome in full.
 ```
 
-The grantee can also record that it received the consent by signing an acknowledgement with `qconsent.acknowledge({ key: hospital, consent: anchored })`, which binds the grantee to the exact terms it was given.
+The grantee records that it received the consent by signing an acknowledgement with the acknowledge function, which binds the grantee to the exact terms it was given.
 
 The functions are generateKey, publicKey, keyId, describeKey, subjectRef, grant, acknowledge, revoke, status, anchor, complete, verify, consentRef and anchorDigest. Keys are 32 byte seeds that stay with their holder and are wiped with fill(0) after use. The full types are in index.d.ts.
 
