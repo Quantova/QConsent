@@ -1,6 +1,6 @@
 {
   "name": "@quantovainc/qconsent",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "Quantum secure patient consent records for healthcare. Proves who consented, to whom, for which purposes and data, from when until when, and whether it was withdrawn, with ML-DSA-65 under FIPS 204 and Quantova time proofs. No patient data ever leaves the holder.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -39,7 +39,7 @@
     "linux"
   ],
   "dependencies": {
-    "@quantovainc/qstamp": "0.6.4"
+    "@quantovainc/qstamp": "0.6.7"
   },
   "keywords": [
     "post-quantum",
