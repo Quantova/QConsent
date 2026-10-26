@@ -1,0 +1,22 @@
+[package]
+name = "qconsent-native"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0 OR MIT"
+publish = false
+description = "ML-DSA-65 consent receipt signing for QConsent, built on Quantova Q-Crypto"
+repository = "https://github.com/Quantova/QConsent"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+qtv-crypto = { git = "https://github.com/Quantova/Q-Crypto.git", rev = "04e5ae26a089df4e4cc8f20f3973b7cbbee594e3", default-features = false }
+wasm-bindgen = "=0.2.126"
+zeroize = { version = "=1.9.0", default-features = false }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"

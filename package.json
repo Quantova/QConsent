@@ -1,0 +1,75 @@
+{
+  "name": "@quantovainc/qconsent",
+  "version": "0.1.0",
+  "description": "Quantum secure patient consent records for healthcare. Proves who consented, to whom, for which purposes and data, from when until when, and whether it was withdrawn, with ML-DSA-65 under FIPS 204 and Quantova time proofs. No patient data ever leaves the holder.",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "qconsent": "bin/qconsent.js"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "lib/",
+    "bin/",
+    "wasm/qconsent_native.js",
+    "wasm/qconsent_native_bg.wasm",
+    "wasm/qconsent_native.d.ts",
+    "LICENSE-APACHE",
+    "LICENSE-MIT",
+    "NOTICE",
+    "AUTHORS"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "lint": "eslint ."
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "os": [
+    "darwin",
+    "linux"
+  ],
+  "dependencies": {
+    "@quantovainc/qstamp": "0.6.4"
+  },
+  "keywords": [
+    "post-quantum",
+    "quantum-safe",
+    "healthcare",
+    "patient-consent",
+    "consent-management",
+    "hipaa",
+    "gdpr",
+    "ml-dsa",
+    "fips-204",
+    "quantova"
+  ],
+  "license": "Apache-2.0 OR MIT",
+  "author": "Quantova Inc",
+  "homepage": "https://github.com/Quantova/QConsent",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Quantova/QConsent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Quantova/QConsent/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "eslint": "9.39.1",
+    "eslint-plugin-security": "3.0.1",
+    "globals": "16.5.0"
+  }
+}

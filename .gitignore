@@ -1,0 +1,6 @@
+node_modules/
+*.qconsent.json
+*.pending.json
+*.key
+.env*
+native/target/
