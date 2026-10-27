@@ -20,10 +20,11 @@ concurrency:
 jobs:
   sdk:
     name: sdk
-    uses: Quantova/Quantova-Ci/.github/workflows/npm-wasm-sdk.yml@06e6113a40fe5bccdd22236a2632782c0ee26da4
+    uses: Quantova/Quantova-Ci/.github/workflows/npm-wasm-sdk.yml@f90b5d4e596c53cbe9f2fa2733562a71758849c4
     permissions:
       contents: read
       id-token: write
+    secrets: inherit
     with:
       test-command: |
         set -euo pipefail

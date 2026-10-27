@@ -39,7 +39,7 @@
     "linux"
   ],
   "dependencies": {
-    "@quantovainc/qstamp": "0.6.7"
+    "@quantovainc/qstamp": "0.6.9"
   },
   "keywords": [
     "post-quantum",
