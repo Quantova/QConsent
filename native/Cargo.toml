@@ -11,7 +11,7 @@ repository = "https://github.com/Quantova/QConsent"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-qtv-crypto = { git = "https://github.com/Quantova/Q-Crypto.git", rev = "04e5ae26a089df4e4cc8f20f3973b7cbbee594e3", default-features = false }
+qtv-crypto = { git = "https://github.com/Quantova/Q-Crypto.git", rev = "d85072b4641ac2166124b83b857db6d6cdbf3d5c", default-features = false }
 wasm-bindgen = "=0.2.126"
 zeroize = { version = "=1.9.0", default-features = false }
 
